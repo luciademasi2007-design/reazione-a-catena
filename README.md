@@ -127,7 +127,7 @@ ul li { margin: 3px 0; font-size: 0.95em; }
 
 <script>
 // --- Mazzi (estratti, vanno completati con 500 parole ciascuno) ---
-let facile = let facile =
+let facile = 
 ["miraggio","cascata","rifugio","eco","gemma","labirinto","arcobaleno","mosaico","sentiero","aurora",
 "farfalla","caverna","orizzonte","polvere","riflesso","fiaba","radura","specchio","lanterna","bussola",
 "quercia","campana","goccia","chiave","scala","pensiero","candela","nuvola","tramonto","rosa",
@@ -162,7 +162,7 @@ let facile = let facile =
 "tentativo","errore","correzione","aggiustamento","adattamento","progresso","avanzamento","passo","salto","svolta",
 "momento","istante","durata","intervallo","attimo","cadenza","fretta","calma","pausa","ripresa",
 "avvio","inizio","chiusura","conclusione","finale","apice","culmine","picco","base","fondamento"];
-let medio = let medio =
+let medio = 
 ["intuizione","strategia","metafora","prospettiva","equilibrio","transizione","struttura","dinamica","interazione","connessione",
 "sequenza","priorità","obiettivo","scenario","contesto","variante","alternativa","ipotesi","deduzione","verifica",
 "analisi","sintesi","modello","schema","pattern","configurazione","meccanismo","processo","evoluzione","adattamento",
@@ -195,7 +195,7 @@ let medio = let medio =
 "indizio","traccia","segnale","sintomo","indicatore","parametro","metrica","misura","scala","grado",
 "livello","intensità","portata","ampiezza","estensione","copertura","raggio","ambito","settore","campo",
 "area","dominio","spazio","dimensione","territorio","perimetro","confine","zona","regione","mappa"];
-let difficile = let difficile = 
+let difficile = 
 ["astrazione","ambivalenza","ambiguità","asimmetria","autonomia","autoriferimento","causalità","coerenza","contingenza","convergenza",
 "decostruzione","determinazione","dialettica","discontinuità","discrepanza","emergenza","entropia","equivoco","epifania","euristica",
 "formalizzazione","generalizzazione","idiosincrasia","immanenza","implicazione","indeterminazione","interdipendenza","interferenza","iterazione","latente",
