@@ -317,6 +317,9 @@ function fullscreen(){
   if(!document.fullscreenElement) document.documentElement.requestFullscreen();
   else document.exitFullscreen();
 }
+
+selezionaMazzo();
+
 </script>
 
 </body>
