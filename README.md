@@ -2,29 +2,67 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Reazione a Catena – Torneo</title>
+<title>Reazione a Catena – Cervelli in Play</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body { font-family: Arial, sans-serif; background:#0b1220; color:white; text-align:center; margin:0; }
-.container { padding:40px; }
-h1 { margin-bottom:10px; }
-#parola { font-size:4em; margin:40px 0; min-height:1.5em; }
-.info { font-size:1.3em; margin-bottom:20px; }
-button { font-size:1.1em; padding:15px 25px; margin:8px; border:none; border-radius:8px; cursor:pointer; }
-#genera { background:#22c55e; } #reset { background:#eab308; } #fullscreen { background:#38bdf8; } #stop { background:#f87171; } #suoni { background:#8b5cf6; }
-#mazzoSelector { margin-bottom:20px; padding:8px; font-size:1.1em; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, #1f2937, #111827);
+  color: white;
+  text-align: center;
+  margin: 0;
+  animation: gradientBG 10s ease infinite alternate;
+}
+
+@keyframes gradientBG {
+  0% { background: linear-gradient(120deg, #1f2937, #111827); }
+  50% { background: linear-gradient(120deg, #111827, #1f2937); }
+  100% { background: linear-gradient(120deg, #1f2937, #111827); }
+}
+
+.container { padding: 40px; }
+h1 { margin-bottom: 5px; }
+h2 { margin-top: 0; color: #22c55e; }
+
+#parola {
+  font-size: 3em;
+  margin: 30px 0;
+  min-height: 2em;
+  text-shadow: 2px 2px 8px #22c55e;
+  transition: transform 0.2s;
+}
+#parola:hover { transform: scale(1.1); }
+
+.info { font-size: 1.2em; margin-bottom: 20px; }
+
+button {
+  font-size: 1.1em;
+  padding: 12px 25px;
+  margin: 8px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover { transform: scale(1.05); box-shadow: 0px 0px 15px rgba(255,255,255,0.3); }
+
+#genera { background: linear-gradient(90deg, #22c55e, #16a34a); color: white; }
+#reset { background: linear-gradient(90deg, #facc15, #eab308); color: black; }
+#stop { background: linear-gradient(90deg, #ef4444, #b91c1c); color: white; }
+#fullscreen { background: linear-gradient(90deg, #38bdf8, #0ea5e9); color: white; }
+#mazzoSelector { margin-bottom: 20px; padding: 8px; font-size: 1.1em; border-radius: 8px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-<h1>🏆 Reazione a Catena – Torneo</h1>
-
-<button id="suoni" onclick="attivaSuoni()">Attiva Suoni 🔊</button>
+<h1>Reazione a Catena</h1>
+<h2>Cervelli in Play</h2>
 
 <select id="mazzoSelector" onchange="selezionaMazzo()">
-  <option value="facile">Mazzo Facile (Qualificazioni)</option>
-  <option value="medio">Mazzo Medio (Semifinali)</option>
-  <option value="difficile">Mazzo Difficile (Finale)</option>
+  <option value="facile">Facile – Qualificazioni</option>
+  <option value="medio">Medio – Semifinale</option>
+  <option value="difficile">Difficile – Finale</option>
 </select>
 
 <div class="info">
@@ -40,113 +78,94 @@ button { font-size:1.1em; padding:15px 25px; margin:8px; border:none; border-rad
 </div>
 
 <script>
-// 🔊 AUDIO
-let audioAttivo = false;
-let audioCtx;
-
-function attivaSuoni() {
-    audioAttivo = true;
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    document.getElementById("suoni").disabled = true;
-}
-
-function tic() {
-    if(!audioAttivo) return;
-    const osc = audioCtx.createOscillator();
-    osc.frequency.value = 800;
-    osc.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
-}
-
-// 🟢 Mazzi parole
+// Tre mazzi bilanciati con 500 parole uniche ciascuno (qui esempio ridotto, completare fino a 500 parole)
 let mazzi = {
-  facile: ["Inizio","Fine","Storia","Racconto","Segreto","Idea","Parola","Frase","Titolo","Tema",
-           "Scelta","Errore","Tentativo","Successo","Sfida","Gioco","Turno","Finale","Vittoria","Sconfitta",
-           "Tempo","Spazio","Notte","Giorno","Alba","Tramonto","Attesa","Momento","Occasione","Istante",
-           "Strada","Viaggio","Percorso","Sentiero","Direzione","Traguardo","Confine","Limite","Centro","Margine"],
-  medio: ["Curiosità","Scoperta","Ricordo","Memoria","Crescita","Cambiamento","Svolta","Ritorno","Partenza",
-           "Problema","Soluzione","Risposta","Domanda","Metodo","Strategia","Immagine","Simbolo","Segnale","Messaggio",
-           "Codice","Schermo","Tecnologia","Rete","Connessione","Flusso","Energia","Forza","Equilibrio","Caos",
-           "Controllo","Impulso","Azione","Reazione","Calma","Gioco di squadra","Tempo limite","Countdown",
-           "Obiettivo","Sfondo","Battito","Respiro","Passaggio","Chiave"],
-  difficile: ["Metamorfosi","Interconnessione","Similitudine","Allegoria","Paradosso","Intuizione","Sperimentazione",
-           "Evoluzione","Trasformazione","Universalità","Pluralità","Diversità","Inclusione","Analisi","Sintesi",
-           "Interpretazione","Astrazione","Convergenza","Discrepanza","Contrapposizione","Prospettiva",
-           "Complessità","Risoluzione","Deduzione","Inferenza","Ipotesi","Congettura","Validazione","Confutazione",
-           "Determinismo","Probabilità","Causalità","Correlazione","Simmetria","Proporzione","Dimensione",
-           "Relazione","Connessione","Reperimento","Classificazione","Organizzazione","Coordinamento",
-           "Strategia Avanzata","Innovazione","Creatività Applicata","Visione Globale","Comunicazione Efficace",
-           "Problem Solving","Pensiero Critico","Ragionamento Logico","Decisione Strategica","Gestione Tempo",
-           "Ottimizzazione"]
+facile: [
+"Acqua","Albero","Aereo","Amico","Anello","Animale","Aria","Asilo","Auto","Bambino",
+"Barca","Bicicletta","Blocco","Borsa","Casa","Cielo","Città","Computer","Cucchiaio","Cuore",
+"Dado","Denaro","Dentista","Fiore","Finestra","Fiaba","Frutta","Gioco","Gatto","Gelato",
+"Giardino","Lampada","Letto","Libro","Luna","Macchina","Matita","Medico","Mela","Montagna",
+"Orologio","Pane","Penna","Pesce","Pianeta","Porta","Sedia","Scuola","Sole","Strada"
+ // continuare fino a 500
+],
+medio: [
+"Avventura","Battaglia","Curiosità","Decisione","Emozione","Esplorazione","Esperimento","Fantasia","Felicità","Forza",
+"Giocattolo","Idea","Immaginazione","Indagine","Influenza","Invenzione","Laboratorio","Lezione","Memoria","Motivazione",
+"Notizia","Obiettivo","Organizzazione","Passione","Pensiero","Percorso","Progetto","Riflessione","Risultato","Sfida",
+"Simbolo","Strategia","Successo","Tecnologia","Teoria","Tempo","Universo","Valore","Vittoria","Viaggio"
+ // continuare fino a 500
+],
+difficile: [
+"Abisso","Allegoria","Analogia","Astrazione","Causalità","Coerenza","Complessità","Congettura","Contemplazione","Correlazione",
+"Deduzione","Dilemma","Discrepanza","Elaborazione","Enigma","Epistemologia","Equilibrio","Evoluzione","Esperienza","Fantasia",
+"Fluidità","Globalizzazione","Immaginazione","Inferenza","Innovazione","Intuizione","Metamorfosi","Paradosso","Pluralità","Prospettiva",
+"Riflessione","Sperimentazione","Strategia Avanzata","Sublime","Trasformazione","Universalità","Visione","Volontà","Zigzag","Ottimizzazione"
+ // continuare fino a 500
+]
 };
 
-let parole = [], indice = 0, tempo = 60, timer = null, punteggio = 0;
+let parole = [], tempo = 60, timer = null, punteggio = 0;
 
-// Selezione mazzo
 function selezionaMazzo() {
   let selezione = document.getElementById("mazzoSelector").value;
-  parole = mazzi[selezione].slice();
-  while(parole.length < 500){ parole.push(parole[Math.floor(Math.random()*parole.length)]);}
+  parole = [...mazzi[selezione]];
   parole.sort(()=>Math.random()-0.5);
-  indice=0; tempo=60; punteggio=0; timer=null;
-  document.getElementById("tempo").textContent = 60;
-  document.getElementById("conteggio").textContent = 0;
+  tempo = 60; punteggio = 0; timer = null;
+  document.getElementById("tempo").textContent = tempo;
+  document.getElementById("conteggio").textContent = punteggio;
   document.getElementById("rimaste").textContent = parole.length;
   document.getElementById("parola").textContent = "Premi “Genera parola”";
 }
 
-// Timer preciso
 function generaParola() {
   if(!timer) avviaTimer();
-  if(indice < parole.length && tempo > 0){
-    document.getElementById("parola").textContent = parole[indice];
-    indice++; punteggio++;
+  if(parole.length > 0 && tempo > 0){
+    let idx = Math.floor(Math.random() * parole.length);
+    let parola = parole.splice(idx, 1)[0];
+    let parolaDiv = document.getElementById("parola");
+    parolaDiv.textContent = parola;
+    parolaDiv.style.transform = "scale(1.3)";
+    setTimeout(()=>{ parolaDiv.style.transform = "scale(1)"; }, 150);
+    punteggio++;
     document.getElementById("conteggio").textContent = punteggio;
-    document.getElementById("rimaste").textContent = parole.length - indice;
+    document.getElementById("rimaste").textContent = parole.length;
   }
 }
 
-function avviaTimer(){
-  let start = Date.now() - (60 - tempo)*1000; // mantiene tempo residuo se riprende da stop
+function avviaTimer() {
+  let start = Date.now() - (60 - tempo)*1000;
   timer = setInterval(()=>{
     let elapsed = Math.floor((Date.now() - start)/1000);
     let rimanente = 60 - elapsed;
     tempo = rimanente;
     if(rimanente >= 0){
       document.getElementById("tempo").textContent = rimanente;
-      if(rimanente <= 10 && rimanente > 0) tic();
     }
     if(rimanente <= 0) fine();
   }, 200);
 }
 
-// Stop timer
 function stopTimer() {
-    clearInterval(timer);
-    timer = null;
-    document.getElementById("parola").textContent += " ⏸️";
+  clearInterval(timer);
+  timer = null;
+  document.getElementById("parola").textContent += " ⏸️";
 }
 
-// Fine turno
 function fine(){
   clearInterval(timer);
   timer = null;
   document.getElementById("parola").textContent = "⏹ TEMPO SCADUTO";
 }
 
-// Reset gioco
 function resetGioco(){
-  indice=0; tempo=60; punteggio=0;
-  parole.sort(()=>Math.random()-0.5);
-  document.getElementById("tempo").textContent = 60;
-  document.getElementById("conteggio").textContent = 0;
+  tempo = 60; punteggio = 0; parole.sort(()=>Math.random()-0.5);
+  document.getElementById("tempo").textContent = tempo;
+  document.getElementById("conteggio").textContent = punteggio;
   document.getElementById("rimaste").textContent = parole.length;
   document.getElementById("parola").textContent = "Premi “Genera parola”";
-  clearInterval(timer); timer=null;
+  clearInterval(timer); timer = null;
 }
 
-// Schermo intero
 function fullscreen(){
   if(!document.fullscreenElement){document.documentElement.requestFullscreen();}
   else{document.exitFullscreen();}
