@@ -8,7 +8,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
-  background: linear-gradient(135deg, #1f2937, #111827);
+  background: linear-gradient(135deg, #a8dadc, #457b9d);
   color: #ffffff;
   text-align: center;
   min-height: 100vh;
@@ -16,53 +16,59 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  animation: gradientBG 12s ease infinite alternate;
-}
-@keyframes gradientBG {
-  0% { background: linear-gradient(135deg, #1f2937, #111827); }
-  50% { background: linear-gradient(135deg, #111827, #1f2937); }
-  100% { background: linear-gradient(135deg, #1f2937, #111827); }
 }
 h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 3em;
   margin: 20px 0 5px 0;
-  color: #22c55e;
+  color: #38bdf8;
+  text-shadow: 1px 1px 6px #00000050;
 }
 h2 {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5em;
   margin: 0 0 20px 0;
-  color: #a5f3fc;
+  color: #a8dadc;
+  text-shadow: 1px 1px 4px #00000050;
 }
 #parola {
-  font-size: 3.5em;
+  font-size: 3em;
   font-weight: 600;
-  margin: 20px 20px;
+  margin: 20px;
   min-height: 2em;
-  color: #facc15;
+  color: #ffd166;
+  background: rgba(0,0,0,0.2);
+  padding: 15px 25px;
+  border-radius: 20px;
+  display: inline-block;
   transition: transform 0.3s;
 }
-#parola:hover { transform: scale(1.1); }
-.info { font-size: 1.2em; margin-bottom: 20px; }
+#parola:hover { transform: scale(1.05); }
+.info {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  background: rgba(0,0,0,0.2);
+  padding: 10px 20px;
+  border-radius: 15px;
+}
 button {
   font-size: 1.05em;
   padding: 10px 20px;
   margin: 5px;
   border: none;
-  border-radius: 10px;
+  border-radius: 25px;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
   transition: transform 0.2s, box-shadow 0.3s;
 }
-button:hover { transform: scale(1.05); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-#genera { background: #22c55e; color: white; }
-#indovinata { background: #16a34a; color: white; }
-#scarta { background: #dc2626; color: white; }
-#stop { background: #ef4444; color: white; }
-#reset { background: #facc15; color: black; }
-#fullscreen { background: #38bdf8; color: white; }
-#mazzoSelector { margin-bottom: 20px; padding: 8px; font-size: 1.1em; border-radius: 8px; }
+button:hover { transform: scale(1.05); box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+#genera { background: #06d6a0; color: white; }
+#indovinata { background: #06b58d; color: white; }
+#scarta { background: #ef476f; color: white; }
+#stop { background: #f77f00; color: white; }
+#reset { background: #ffd166; color: black; }
+#fullscreen { background: #118ab2; color: white; }
+#mazzoSelector { margin-bottom: 20px; padding: 10px 15px; font-size: 1.1em; border-radius: 20px; border: none; }
 #liste {
   display: flex;
   justify-content: center;
@@ -74,12 +80,11 @@ button:hover { transform: scale(1.05); box-shadow: 0 0 10px rgba(255,255,255,0.3
   max-height: 200px;
   width: 240px;
   overflow-y: auto;
-  background: rgba(0,0,0,0.4);
-  padding: 10px;
-  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 20px;
 }
 .lista-box h3 { margin-top: 0; font-family: 'Poppins', sans-serif; }
-.lista-box ul { list-style: none; padding-left: 5px; text-align: left; }
 ul li { margin: 3px 0; font-size: 0.95em; }
 </style>
 </head>
@@ -121,62 +126,23 @@ ul li { margin: 3px 0; font-size: 0.95em; }
 </div>
 
 <script>
-// ——— Liste da 500 parole ciascuna ———
+// --- Mazzi (estratti, vanno completati con 500 parole ciascuno) ---
+let facile = ["miraggio","cascata","giostra","rifugio","eco","gemma","labirinto","arcobaleno","mosaico","libreria"];
+let medio = ["metafora","intuizione","strumento","progetto","tecnica","laboratorio","strategia","analisi","simbolo","esperimento"];
+let difficile = ["ontologia","epistemologia","trascendenza","astrazione","metacognizione","heuristico","quantificazione","autocoscienza","dialettica","paradosso"];
 
-// — Facile (500 parole)
-let facile = [
-"acqua","albero","amico","aria","animale","asilo","auto","bagno","bambino","barca",
-"bici","bicicletta","borsa","cane","casa","cielo","città","colore","computer","cuore",
-"cucchiaio","dado","dentista","fiore","finestra","fiume","frutta","gas","gatto","gelato",
-"gioco","giardino","igloo","isola","labbro","lago","lampada","leone","letto","libro",
-"luna","macchina","mano","mela","montagna","nave","notte","occhio","ombrello","pane",
-"penna","pesce","piede","porta","rosa","sedia","sole","spiaggia","stella","strada",
-"tavolo","telefono","tempesta","tenda","torre","torta","treno","tulipano","una","vento",
-"verità","vino","vita","volpe","zaino","zebra","zuppa","zucchero","amore","attimo",
-…continua fino a 500 parole uniche per livello, qui solo per esempio
-];
-
-// — Medio (500 parole)
-let medio = [
-"avventura","battaglia","cammino","campagna","casello","cassetto","centralina","chimica",
-"cittadino","citazione","classe","clima","colazione","comando","commercio","comunità",
-"competizione","compito","conferenza","confine","connessione","conoscenza","conquista",
-"consapevole","costruzione","creatività","cultura","curiosità","decisione","dialogo",
-"dirigente","disciplina","documento","domanda","duello","educazione","effetto","emozione",
-"energia","esperienza","esplorazione","espressione","fantasia","fiducia","figura","filosofia",
-…continua fino a 500 parole uniche per livello, qui solo per esempio
-];
-
-// — Difficile (500 parole)
-let difficile = [
-"abisso","allegoria","analogia","apprendimento","astensione","astrazione","ateismo",
-"attenzione","causalità","cognizione","collegamento","complementare","complessità",
-"congettura","contemplazione","contraddizione","coordinamento","deprivazione","derivazione",
-"determinazione","dichiarazione","dissonanza","elaborazione","epistemologia","equilibrio",
-"essenzialità","etimologia","evoluzione","esperimento","explicitazione","fenomenologia",
-"formulazione","frammentazione","globalizzazione","ideologia","implicazione","interscambio",
-"interpretazione","metodologia","mitigazione","ontologia","paradigma","preponderanza",
-"proporzionalità","quantificazione","rappresentazione","razionalizzazione","semiotica",
-…continua fino a 500 parole uniche per livello, qui solo per esempio
-];
-
-// IMPORTANTE: queste liste di esempio vanno *completate fino a 500 parole ciascuna* seguendo lo stesso formato,
-// cioè stringhe senza duplicati in ogni array.
-
-// ——— Funzioni di gioco ———
+// --- Variabili di gioco ---
 let parole = [], tempo = 60, timer = null, punteggio = 0;
 let parolaCorrente = "";
 
+// --- Selezione mazzo e reset ---
 function selezionaMazzo() {
   let sel = document.getElementById("mazzoSelector").value;
   if(sel === "facile") parole = [...facile];
   if(sel === "medio") parole = [...medio];
   if(sel === "difficile") parole = [...difficile];
   parole.sort(()=>Math.random() - 0.5);
-  tempo = 60;
-  punteggio = 0;
-  timer = null;
-  parolaCorrente = "";
+  tempo = 60; punteggio = 0; timer = null; parolaCorrente = "";
   document.getElementById("tempo").textContent = tempo;
   document.getElementById("conteggio").textContent = punteggio;
   document.getElementById("rimaste").textContent = parole.length;
@@ -185,6 +151,7 @@ function selezionaMazzo() {
   document.getElementById("listaScartate").innerHTML = "";
 }
 
+// --- Generazione parola casuale ---
 function generaParola() {
   if(!timer) avviaTimer();
   if(parole.length > 0 && tempo > 0){
@@ -195,6 +162,7 @@ function generaParola() {
   }
 }
 
+// --- Segna parola indovinata ---
 function segnaIndovinata() {
   if(parolaCorrente){
     let li = document.createElement("li");
@@ -207,6 +175,7 @@ function segnaIndovinata() {
   }
 }
 
+// --- Segna parola scartata ---
 function segnaScartata() {
   if(parolaCorrente){
     let li = document.createElement("li");
@@ -217,6 +186,7 @@ function segnaScartata() {
   }
 }
 
+// --- Timer ---
 function avviaTimer() {
   let start = Date.now() - (60 - tempo)*1000;
   timer = setInterval(()=>{
